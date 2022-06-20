@@ -1,0 +1,138 @@
+CREATE OR REPLACE TABLE
+    br-apps-governance-prd.hubeducacao.tbl_consolidado_hubeducacao AS 
+
+WITH RH as (
+
+SELECT DRT,Display_Name,Email,Sigla_Loja,Status,
+CASE 
+             
+            when Departmento = 'DIREÇÃO DE TECNOLOGIA DA INFORMAÇÃO' Then  "DIREÇÃO TI"
+            when Departmento = 'TECNOLOGIA DA INFORMAÇÃO E-COMMERCE' Then  "TRANSFORMAÇÃO TI"
+            when Departmento = 'TI - ARQUITETURA' Then 'ARQUITETURA E DADOS'
+            when Departmento = 'TI - CENTROS DE SOLUÇÃO' Then 'CS - COMERCIAL, PRICING E SUPPLY'
+            when Departmento = 'TI - FÁBRICA DE SOFTWARE' Then 'TRANSFORMAÇÃO TI'
+            when Departmento = 'TI - GOVERNANÇA' Then 'ESCRITÓRIO DO CIO'
+            when Departmento = 'TI - INFRAESTRUTURA E TELECOM' Then 'SI, INFRAESTRUTURA E SUPORTE A APLICAÇÃO'
+            when Departmento = 'TI - SEGURANÇA DA INFORMAÇÃO' Then 'SI, INFRAESTRUTURA E SUPORTE A APLICAÇÃO'
+            when Departmento = 'TI - SUP APLICAÇÕES & TERRITÓRIO' Then 'CS - LOJAS E OPERAÇÕES CORPORATIVAS'
+            when Departmento = 'TI - LOYALTY' Then 'TRANSFORMAÇÃO TI'
+            when Departmento = 'ANALYTICS' Then 'ARQUITETURA E DADOS'
+            when Departmento = 'CYBER COOK' Then 'CS - COMERCIAL, PRICING E SUPPLY'
+            when Departmento = 'Celula de Automação' then 'ROBOTIZAÇÃO'
+            when Departmento = 'Produtos E-commerce' then 'Produtos Digitais'
+
+            else  "Não elegivel" 
+            end as diretoriacorreta
+
+ FROM `br-apps-governance-prd.hubeducacao.colaboradores_rh_funcionarios` 
+ WHERE Sigla_Loja = 'MTZ'
+
+),
+
+TRILHA_UNICA AS (
+    SELECT b.DRT,b.Display_Name,b.Email,b.Sigla_Loja,b.diretoriacorreta,
+Nome_do_Curso as NomedoCurso,cast (Data_de_in__cio_pelo_usu__rio as date ) as DataInicio,left (Carga_Hor__ria ,2 ) as CargaHoraria,"UNICA" as PLATAFORMA
+FROM `br-apps-governance-prd.hubeducacao.TRILHA_UNICA` a
+left join RH b
+ on a.Usu__rio___Matr__cula = b.drt
+ where a.Usu__rio___Matr__cula is not null
+ AND b.diretoriacorreta <> 'Não elegivel'
+ and a.Nome_do_Curso IN ('COVID-19','LGPD','NOSSA CULTURA - ACT FOR CHANGE','MEU CONECTARH - CORPORATIVO')
+
+),
+
+ ALURA AS (
+
+SELECT b.DRT,b.Display_Name,b.Email,b.Sigla_Loja,b.diretoriacorreta,
+
+a.Curso as NomedoCurso,a.Data_de_in__cio as DataInicio,CAST (a.Carga_Hor__ria as STRING )as CargaHoraria ,"ALURA" as PLATAFORMA
+FROM `br-apps-governance-prd.hubeducacao.ALURA`  a
+left join RH b
+ on a.email = b.Email
+ where a.email is not null
+ AND b.diretoriacorreta <> 'Não elegivel'
+and a.Finalizou_o_curso_ = 'Sim'
+ ),
+
+DIO AS (
+
+SELECT b.DRT,b.Display_Name,b.Email,b.Sigla_Loja,b.diretoriacorreta,
+
+REPLACE( REPLACE( REPLACE( REPLACE( 
+        REPLACE( REPLACE( REPLACE( REPLACE( 
+            REPLACE( REPLACE( REPLACE( REPLACE( 
+                REPLACE( REPLACE( REPLACE( REPLACE( 
+                    REPLACE( REPLACE( REPLACE( REPLACE( a.nome_do_curso, 'Ã§Ã£', 'ca' ), 
+                'Ã§Ãµ', 'co' ), 'Ã§', 'c' ), 'Ã¡', 'a' ), 'Ã³', 'o' ),    'Ã£', 'a' ), 'Ã©', 'e' ), '!', ' ' ), '~', ' ' ), '^', ' ' ), 
+        '`', ' ' ), '´', ' ' ), '<', ' ' ), '>', ' ' ), ':', ' ' ), 
+    ';', ' ' ), '?', ' ' ), 'ª', ' ' ), '{', ' ' ), '}', ' ' ) as NomedoCurso,
+CAST(  a.min as date ),cast (a.total_workload as string ) as CargaHoraria ,"DIO" as PLATAFORMA
+ FROM `br-apps-governance-prd.hubeducacao.DIO` a
+ left join RH b
+ on a.email = b.Email
+ where b.email is not null
+ AND b.diretoriacorreta <> 'Não elegivel'
+ and a.percentagem_concluida = 1.0
+ and cast (a.total_workload as string ) <> '0'
+
+),
+
+AFFEROLAB AS (
+
+SELECT b.DRT,b.Display_Name,b.Email,b.Sigla_Loja,b.diretoriacorreta,
+REPLACE( REPLACE( REPLACE( REPLACE( 
+        REPLACE( REPLACE( REPLACE( REPLACE( 
+            REPLACE( REPLACE( REPLACE( REPLACE( 
+                REPLACE( REPLACE( REPLACE( REPLACE( 
+                    REPLACE( REPLACE( REPLACE( REPLACE( a.Nomecurso, 'Ã§Ã£', 'ca' ), 
+                'Ã§Ãµ', 'co' ), 'Ã§', 'c' ), 'Ã¡', 'a' ), 'Ã³', 'o' ),    'Ã£', 'a' ), 'Ã©', 'e' ), '!', ' ' ), '~', ' ' ), '^', ' ' ), 
+        '`', ' ' ), '´', ' ' ), '<', ' ' ), '>', ' ' ), ':', ' ' ), 
+    ';', ' ' ), '?', ' ' ), 'ª', ' ' ), '{', ' ' ), '}', ' ' ) as NomedoCurso,
+a.Dataconclusao as DataInicio,"1" as CargaHoraria,"AFFEROLAB" as PLATAFORMA
+ FROM `br-apps-governance-prd.hubeducacao.AFFEROLAB` a
+left join RH b
+ on a.email = b.Email
+ or a.drt = b.drt
+ where a.email is not null
+ AND b.diretoriacorreta <> 'Não elegivel'
+ ),
+
+GOOGLE AS (
+
+SELECT b.DRT,b.Display_Name,b.Email,b.Sigla_Loja,b.diretoriacorreta,
+a.Nomecurso as NomedoCurso,a.Dataconclusao as DataInicio,'1' as CargaHoraria,"GOOGLE" as PLATAFORMA
+FROM `br-apps-governance-prd.hubeducacao.GOOGLE` a
+left join RH b
+ on a.email = b.Email
+ or a.drt = b.drt
+ where a.email is not null
+ AND b.diretoriacorreta <> 'Não elegivel'
+ ),
+
+ SCORM AS (
+
+SELECT b.DRT,b.Display_Name,b.Email,b.Sigla_Loja,b.diretoriacorreta,
+
+a.SCORM___T__tulo as NomedoCurso,a.Data_de_In__cio as DataInicio,left ( CAST (Carga_Hor__ria as STRING ) , 2 ) as CargaHoraria ,"UNICA" as PLATAFORMA
+FROM `br-apps-governance-prd.hubeducacao.TRILHA_SCORM`  a
+left join RH b
+ on a.Usu__rio___Matr__cula = b.drt
+ where a.Usu__rio___Matr__cula is not null
+ AND b.diretoriacorreta <> 'Não elegivel'
+and a.Finalizado = 'Sim'
+and a.SCORM___T__tulo IN ('Código de Conduta e Ética','Política Anticorrupção','#EUPRATICORESPEITO II','Letramento Racial')
+
+ )
+
+
+SELECT * FROM TRILHA_UNICA
+UNION ALL
+SELECT * FROM ALURA
+UNION ALL
+SELECT * FROM DIO
+UNION ALL
+SELECT * FROM AFFEROLAB
+UNION ALL
+SELECT * FROM GOOGLE
+UNION ALL
+SELECT * FROM SCORM

@@ -1,0 +1,29 @@
+CREATE OR REPLACE TABLE
+  br-apps-governance-prd.BIG.tbl_compromissado_capex AS
+
+select a.N___doc_de_refer__ncia,
+Data_do_documento,
+Elemento_PEP,
+N___doc_de_refer__ncia as Doc_compras,
+Valor_moeda_objeto,
+Exerc__cio,
+Nome_fornecedor,
+b.FRENTE as Torre,
+b. NOME_SAP as NOME_INICIATIVA,
+a.ID_SAP,
+RESPONSAVEL_DSI,
+b.RESPONS__VEL as responsavel_torre,
+(SELECT DISTINCT (SUBSTR (Fornecedor_centro_fornecedor,11 )) FROM `br-apps-governance-prd.BIG.tbl_list_fornecedores` AS c WHERE  c.Documento_de_compras = a.N___doc_de_refer__ncia ) AS fornecedor,
+(FORMAT_TIMESTAMP("Atualizado: %d %b %T", current_timestamp,"America/Sao_Paulo")) AS agora,
+ ARRAY( SELECT  ifnull( CASE   WHEN RIGHT( c.Elemento_PEP,3) = "901" THEN 'Capitalização'
+                         WHEN RIGHT( c.Elemento_PEP,3) = "803" THEN 'Serviço'
+                         WHEN RIGHT( c.Elemento_PEP,3) = "802" THEN 'Software'
+                         WHEN RIGHT( c.Elemento_PEP,3) = "801" THEN 'Hardware'
+                  END,"NA")  FROM `br-apps-governance-prd.cpx.big_cji5` AS c  WHERE  left(c.Elemento_PEP,13) = b.ID_SAP ) AS Classificacao_SAP
+
+
+FROM `br-apps-governance-prd.cpx.big_cji5`  a
+full join `br-apps-governance-prd.BIG.tbl_base_sap_big`  b
+on left(a.Elemento_PEP,13) = b.ID_SAP
+where b.ID_SAP is not null
+and a.Elemento_PEP is not null

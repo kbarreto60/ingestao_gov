@@ -1,0 +1,9 @@
+SELECT Usu__rio___Matr__cula,Usu__rio___Nome, regexp_replace( DEPARTAMENTO___Nome , "�","C") as departamentonome,
+regexp_replace( SCORM___T__tulo , "�","C") as nomecurso,Carga_Hor__ria,Data_de_In__cio,Data_de_t__rmino,
+CASE WHEN LOJA___ID___Externo = 'MTZ' Then "Unica"
+end as plataforma
+
+--regexp_replace(Departamento,"�","C")
+ FROM `br-apps-governance-prd.hubeducacao.unica` 
+ where LOJA___ID___Externo = 'MTZ'
+ LIMIT 1000

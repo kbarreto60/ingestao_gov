@@ -1,0 +1,20 @@
+## Criar bucket 
+
+## Ler o arquivo anexando a tabela :
+
+  O URI com o seguinte caractere curinga seleciona apenas arquivos com uma extensão .csv na pasta chamada fed-samples e quaisquer subpastas de fed-samples:
+
+
+  gs://mybucket/fed-samples/fed-sample/*.csv
+
+  Schedule : 
+
+    CREATE OR REPLACE TABLE
+    br-apps-analytics-bigdata-dev.db_qualidade_dados.onetrust_agregado AS 
+    
+    SELECT * FROM `br-apps-analytics-bigdata-dev.db_qualidade_dados.onetrust_agregado` LIMIT 1000
+
+## Ler o arquivo substituindo a tabela 
+
+
+

@@ -1,0 +1,5 @@
+SELECT DISTINCT  (NomedoCurso) , DRT , DataInicio ,COUNT (DRT ) AS DUPLICADO
+
+ FROM `br-apps-governance-prd.hubeducacao.tbl_consolidado_hubeducacao`
+ GROUP BY 1,2,3
+ HAVING DUPLICADO > 1

@@ -1,0 +1,24 @@
+---CREATE OR REPLACE TABLE
+  --br-apps-governance-prd.BIG.tbl_capitalizado_capex AS
+
+select Documento_de_compras,
+c.M__s,
+a.Per__odo__a,
+B.ID_SAP,
+Objeto,
+c.Valor as forecast_capitalizado,
+c.Classifica____o,
+b.frente as Torre,
+b.RESPONS__VEL,
+( SELECT ifnull (a.Valor_moeda_ACC ,0) FROM `br-apps-governance-prd.cpx.CJI3_2021` AS a WHERE  RIGHT( a.Objeto,3) = "901" AND left(a.Objeto,13) = b.ID_SAP
+    and (SELECT EXTRACT(MONTH FROM  a.Data_do_documento )) = ( SELECT EXTRACT(MONTH FROM  c.M__s ))) AS Valor_Real_CAP_mes,
+(FORMAT_TIMESTAMP("Atualizado: %d %b %T", current_timestamp,"America/Sao_Paulo")) AS agora,
+FROM `br-apps-governance-prd.cpx.CJI3_2021`  a
+full join `br-apps-governance-prd.BIG.tbl_base_sap_big`  b
+on left(a.Objeto,13) = b.ID_SAP
+full join br-apps-governance-prd.Forescast.big_forecast  c
+on c.PEP = b.ID_SAP
+where b.ID_SAP is not null
+and a.Objeto is not null
+and c.Classifica____o = "Capitalização TI (internos)"
+and RIGHT(a.Objeto,3) = '901'

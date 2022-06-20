@@ -1,0 +1,18 @@
+Resumo Executivo :
+
+Capex - tamoios_resumo_executivo_capex
+Opex - tamoios_resumo_executivo_opex
+
+Valores Realizados : 
+
+Capex - tamoios_valores_realizados_capex
+Opex - tamoios_valores_realizados_opex
+
+Valores Compromissados: 
+
+Capex - tamoios_valores_compromissados_capex
+Opex - tamoios_valores_compromissados_opex
+
+Valores Capitalizados: 
+
+Capex - tamoios_valores_capitalizados_capex

@@ -1,0 +1,43 @@
+cockpit proposto > 
+https://datastudio.google.com/reporting/4c7d19cd-9d85-49c9-8ae1-c770c31e6c2e
+-----------------------------------------------
+
+Resumo Executivo > 
+
+https://datastudio.google.com/u/0/reporting/518f9880-ec22-42df-a664-ef19babb724d/page/p_w6z838oguc/edit
+
+Estrutura Projeto > 
+https://datastudio.google.com/reporting/e6cdd72a-d805-48e8-8126-65a6425305db
+
+
+
+## Excluir --Resumo Financeiro >
+
+https://datastudio.google.com/u/0/reporting/4498e05b-2cc7-4cc4-aa53-8c3fffdff50c/page/H5u3B/edit
+
+Valores Realizados >
+https://datastudio.google.com/u/0/reporting/9b7d5f4a-41d8-4cd4-82ff-ee98c4cc1662/page/S8h3B/edit
+
+Valores Compromissados>
+https://datastudio.google.com/u/0/reporting/8edc6a01-3b55-4781-bebe-62d3d6702c36/page/S8h3B
+
+Valores Capitalizados >
+https://datastudio.google.com/reporting/7eec44ec-b344-4736-b00a-6e963939493c
+
+
+
+Custos Alexandra >
+https://datastudio.google.com/reporting/0f639076-8ecb-454f-a772-3de59f94c2c0
+Plan origem > https://docs.google.com/spreadsheets/d/1GZLdz1sZPk4nWMFlJ4wFGJM8FRWLUN6oAID7TnetfOs/edit#gid=2026529253
+Plan Silmara > https://docs.google.com/spreadsheets/d/1d2GNew7b09SZ9xsiI80BflrYQiU-ru9DdBNOxxpxANM/edit#gid=733047767
+pla sla > https://docs.google.com/spreadsheets/d/1d2GNew7b09SZ9xsiI80BflrYQiU-ru9DdBNOxxpxANM/edit#gid=733047767
+
+sla > https://datastudio.google.com/reporting/65e39bc5-c210-46d2-ba23-0b77c2e08d4b
+
+
+cokpit original >
+https://datastudio.google.com/u/0/reporting/100b6ac8-9631-4444-9093-c60305d0fe87/page/ZlAPC
+
+
+
+

@@ -1,0 +1,20 @@
+TI22/004
+801 - Hardware
+802 - software
+803- Serviços
+901 - Mão de Obra interna ( se chama capitalização ) usa cji3. 
+
+capex - ti022
+opex = ordem interna
+
+
+orderm interna = KOB1 (REALIZADO )
+Order interna = KOB2( COMPROMISSADO )
+
+O opex seria o seguinte orçamento - realizado - compromissado
+
+Forecast - esta na tabela forecast
+
+
+
+

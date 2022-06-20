@@ -1,0 +1,29 @@
+---CREATE OR REPLACE TABLE
+  --br-apps-governance-prd.BIG.tbl_resumo_big_capex AS
+    
+    SELECT ID_SAP ,
+    if (left(a.ID_SAP,2)='TI',RIGHT (a.ID_SAP,4),'0') AS formato,
+     NOME_SAP ,
+    OR__AMENTO_SOLICITADO_INICIAL,
+    APROVADO_COMEX,
+    VALOR_APROVADO_ATUAL	,
+    FRENTE,
+    RESPONS__VEL,
+    Status,
+    DT_Inicio,
+    DT_Fim,
+    Cluster_Or__ament__rio,
+    _Tech_Layers,
+ (SELECT IFNULL( SUM(c.Valor_moeda_ACC), 0) FROM  `br-apps-governance-prd.cpx.CJI3_2021` AS c  WHERE  left(c.Objeto,13) = a.ID_SAP) as realizado ,
+  ARRAY ( SELECT ifnull (c.Valor_moeda_ACC,0)  FROM `br-apps-governance-prd.cpx.CJI3_2021` AS c  WHERE  left(c.Objeto,13) = a.ID_SAP ) AS Valor_Realizado,
+ (SELECT SUM(d.Valor_moeda_objeto) FROM `br-apps-governance-prd.cpx.CJI5_2021` AS d WHERE  LEFT(d.Elemento_PEP,13) = a.ID_SAP ) AS compromissado,
+ (SELECT ifnull( SUM(b.Valor), 0) FROM  Forescast.big_forecast AS b WHERE  b.PEP = ID_SAP ) AS forecast,
+ (FORMAT_TIMESTAMP("Atualizado: %d %b %T", current_timestamp,"America/Sao_Paulo")) AS agora,
+ ARRAY( SELECT  ifnull( CASE   WHEN RIGHT( c.Objeto,3) = "901" THEN 'Capitalização'
+                         WHEN RIGHT( c.Objeto,3) = "803" THEN 'Serviço'
+                         WHEN RIGHT( c.Objeto,3) = "802" THEN 'Software'
+                         WHEN RIGHT( c.Objeto,3) = "801" THEN 'Hardware'
+                  END,"NA")  FROM `br-apps-governance-prd.cpx.CJI3_2021` AS c  WHERE  left(c.Objeto,13) = a.ID_SAP ) AS Classificacao_SAP
+ FROM `br-apps-governance-prd.BIG.tbl_base_sap_big` a
+
+

@@ -1,0 +1,61 @@
+WITH RH as (
+
+
+     SELECT drt,nome,Cargo ,Email,Empresa,Sigla_Loja,Status,
+
+CASE 
+             
+            when Departamento = 'DIRE�ÃO DE TECNOLOGIA DA INFORMA�ÃO' Then  "DIREÇÃO TI"
+            when Departamento = 'TECNOLOGIA DA INFORMA�ÃO E-COMMERCE' Then  "TRANSFORMAÇÃO TI"
+            when Departamento = 'TI - ARQUITETURA' Then 'ARQUITETURA E DADOS'
+            when Departamento = 'TI - CENTROS DE SOLU�ÃO' Then 'CS - COMERCIAL, PRICING E SUPPLY'
+            when Departamento = 'TI - FÁBRICA DE SOFTWARE' Then 'TRANSFORMAÇÃO TI'
+            when Departamento = 'TI - GOVERNAN�A' Then 'ESCRITÓRIO DO CIO'
+            when Departamento = 'TI - INFRAESTRUTURA E TELECOM' Then 'SI, INFRAESTRUTURA E SUPORTE A APLICAÇÃO'
+            when Departamento = 'TI - SEGURAN�A DA INFORMA�ÃO' Then 'SI, INFRAESTRUTURA E SUPORTE A APLICAÇÃO'
+            when Departamento = 'TI - SUP APLICA�ÕES & TERRITÓRIO' Then 'CS - LOJAS E OPERAÇÕES CORPORATIVAS'
+            when Departamento = 'TI - LOYALTY' Then 'TRANSFORMAÇÃO TI'
+            when Departamento = 'ANALYTICS' Then 'ARQUITETURA E DADOS'
+            when Departamento = 'CYBER COOK' Then 'CS - COMERCIAL, PRICING E SUPPLY'
+
+            else  "Não elegivel" 
+            end as diretoriacorreta
+
+ FROM `br-apps-governance-prd.hubeducacao.colaboradores_rh_funcionarios` 
+ 
+),
+
+DIO AS (
+
+SELECT b.drt,b.nome,b.Cargo,b.diretoriacorreta,b.Email,b.Empresa,b.Sigla_Loja,
+cast (a.DataInicio as date ),a.NomedoCurso as Curso,a.CargaHoraria,cast(a.DataConclusao as date ),"DIO" AS PLATAFORMA
+FROM `br-apps-governance-prd.hubeducacao.DIO` a
+left join RH b
+on a.email = b.Email
+where a.email is not null ),
+
+ALURA AS (
+SELECT b.drt,b.nome,b.Cargo,b.diretoriacorreta,b.Email,b.Empresa,b.Sigla_Loja, 
+cast (a.DataInicio as date ),a.Curso ,a.CargaHoraria,cast(a.DataConclusao as date), "ALURA " AS PLATAFORMA
+FROM `br-apps-governance-prd.hubeducacao.ALURA` A
+left join RH b
+on a.drt = b.drt 
+WHERE a.Finalizouocurso = 'Sim'
+and b.drt is not null ),
+
+UNICA AS (
+SELECT b.drt,b.nome,b.Cargo,b.diretoriacorreta,b.Email,b.Empresa,b.Sigla_Loja, 
+cast (a.DataInicio as date ),a.NomedoCurso as Curso ,a.CargaHorariaAJUSTADO as CargaHoraria ,cast(a.DataConclusao as date ), "UNICA" AS PLATAFORMA
+FROM `br-apps-governance-prd.hubeducacao.UNICA` A
+left join RH b
+on a.drt = b.drt
+where Finalizado = 'Sim'
+and b.drt is not null
+)
+
+
+SELECT * FROM DIO
+UNION ALL
+SELECT * FROM ALURA
+UNION ALL
+SELECT * FROM UNICA

@@ -1,0 +1,21 @@
+--CREATE OR REPLACE TABLE
+ -- br-apps-governance-prd.BIG.tbl_realizado_opex AS
+
+select Documento_de_compras,
+Data_de_lan__amento,
+NOME_SAP,
+ID_SAP,
+Ordem,
+Classe_de_custo,
+Valor_MR,
+Per__odo,
+Exerc__cio,
+Texto_breve_material,
+b.frente as Torre,
+(SELECT DISTINCT (SUBSTR (Fornecedor_centro_fornecedor,11 )) FROM `br-apps-governance-prd.BIG.tbl_list_fornecedores` AS c WHERE  c.Documento_de_compras = a.Documento_de_compras ) AS fornecedor,
+(FORMAT_TIMESTAMP("Atualizado: %d %b %T", current_timestamp,"America/Sao_Paulo")) AS agora
+FROM `br-apps-governance-prd.BIG.tbl_KOB1_opex`  a
+full join `br-apps-governance-prd.BIG.tbl_base_sap_big`  b
+on cast (a.Ordem as string ) = b.ID_SAP
+where b.ID_SAP is not null
+and a.Ordem is not null

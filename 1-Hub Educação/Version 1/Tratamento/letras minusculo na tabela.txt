@@ -1,0 +1,6 @@
+SELECT 
+--lower(substr(Empresa, 1,length(Empresa))) 
+*
+FROM `br-apps-governance-prd.hubeducacao.colaboradores_rh_funcionarios` 
+where drt = 10
+--where Email = 'matheus_novais_ext@carrefour.com'

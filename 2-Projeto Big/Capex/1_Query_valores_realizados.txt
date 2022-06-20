@@ -1,0 +1,32 @@
+--CREATE OR REPLACE TABLE
+  --br-apps-governance-prd.BIG.tbl_realizado_capex AS
+
+select Documento_de_compras,
+Data_do_documento,
+Tipo_de_objeto,
+Objeto,
+Classe_de_custo,
+Valor_moeda_ACC,
+Moeda_da_ACC,
+Valor_moed_transa____o,
+Moeda_da_transa____o,
+Per__odo__a,
+Texto_do_pedido,
+Defini____o_do_projeto,
+Exerc__cio,
+b.frente as Torre,
+(SELECT DISTINCT (SUBSTR (Fornecedor_centro_fornecedor,11 )) FROM `br-apps-governance-prd.BIG.tbl_list_fornecedores` AS c WHERE  c.Documento_de_compras = a.Documento_de_compras ) AS fornecedor,
+
+(FORMAT_TIMESTAMP("Atualizado: %d %b %T", current_timestamp,"America/Sao_Paulo")) AS agora,
+ ARRAY( SELECT  ifnull( CASE   WHEN RIGHT( c.Objeto,3) = "901" THEN 'Capitalização'
+                         WHEN RIGHT( c.Objeto,3) = "803" THEN 'Serviço'
+                         WHEN RIGHT( c.Objeto,3) = "802" THEN 'Software'
+                         WHEN RIGHT( c.Objeto,3) = "801" THEN 'Hardware'
+                  END,"NA")  FROM `br-apps-governance-prd.cpx.CJI3_2021` AS c  WHERE  left(c.Objeto,13) = b.ID_SAP ) AS Classificacao_SAP
+
+
+FROM `br-apps-governance-prd.cpx.CJI3_2021`  a
+full join `br-apps-governance-prd.BIG.tbl_base_sap_big`  b
+on left(a.Objeto,13) = b.ID_SAP
+where b.ID_SAP is not null
+and a.Objeto is not null

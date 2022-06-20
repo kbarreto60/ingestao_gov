@@ -1,0 +1,28 @@
+SELECT --regexp_replace (( NomedoCurso , "Ã","c"),(NomedoCurso , "§","a")) as NomedoCurso
+--TRANSLATE (TRANSLATE(NomedoCurso, '§', 'a'),(NomedoCurso, 'Ã', 'c')) 
+
+    REPLACE( REPLACE( REPLACE( REPLACE( 
+        REPLACE( REPLACE( REPLACE( REPLACE( 
+            REPLACE( REPLACE( REPLACE( REPLACE( 
+                REPLACE( REPLACE( REPLACE( REPLACE( 
+                    REPLACE( REPLACE( REPLACE( REPLACE( NomedoCurso, 'Ã§Ã£', 'ca' ), 
+                'Ã§Ãµ', 'co' ), 'Ã§', 'c' ), 'Ã¡', 'a' ), 'Ã³', 'o' ),    'Ã£', 'a' ), 'Ã©', 'e' ), '!', ' ' ), '~', ' ' ), '^', ' ' ), 
+        '`', ' ' ), '´', ' ' ), '<', ' ' ), '>', ' ' ), ':', ' ' ), 
+    ';', ' ' ), '?', ' ' ), 'ª', ' ' ), '{', ' ' ), '}', ' ' )
+ FROM `br-apps-governance-prd.hubeducacao.DIO` 
+ where PorcentagemConcluida  = 1.0
+ and CargaHoraria <> 0.0
+ LIMIT 1000
+
+-------------------------------
+
+SELECT
+    REPLACE( REPLACE( REPLACE( REPLACE( 
+        REPLACE( REPLACE( REPLACE( REPLACE( 
+            REPLACE( REPLACE( REPLACE( REPLACE( 
+                REPLACE( REPLACE( REPLACE( REPLACE( 
+                    REPLACE( REPLACE( REPLACE( REPLACE( @Texto, '$', ' ' ), 
+                '@', ' ' ), '%', ' ' ), '&', ' ' ), '(', ' ' ), 
+            ')', ' ' ), '+', ' ' ), '!', ' ' ), '~', ' ' ), '^', ' ' ), 
+        '`', ' ' ), '´', ' ' ), '<', ' ' ), '>', ' ' ), ':', ' ' ), 
+    ';', ' ' ), '?', ' ' ), 'ª', ' ' ), '{', ' ' ), '}', ' ' );
